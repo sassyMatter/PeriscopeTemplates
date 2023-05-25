@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/hello")
 @CrossOrigin(origins = "*")
 @Slf4j
-public class HelloWorldController{
+public class Sample {
 
     @GetMapping
-    public Response helloWorld(){
+    public Response Sample(){
         log.info("Hit");
         Response response = new Response();
-        response.setResponse("Hello Nirbhay, from server");
+        response.setResponse("Hello, Connected to server");
         return response;
     }
 
