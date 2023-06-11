@@ -3,16 +3,20 @@ package com.app.controllers;
 
 
 import com.app.models.Response;
+import com.app.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/canvas")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins="*")
 @Slf4j
 public class CanvasController {
+
+
 
     @PostMapping("/post-canvas-data")
     public Response PostCanvasData(@RequestBody String data){
