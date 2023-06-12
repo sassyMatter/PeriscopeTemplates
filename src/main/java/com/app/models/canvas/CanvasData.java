@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,8 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Document
 public class CanvasData {
     public String version;
-    public ArrayList<CanvasObject> canvasObjects;
+    public ArrayList<CanvasObject> objects;
 }

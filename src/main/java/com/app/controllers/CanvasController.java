@@ -25,16 +25,6 @@ public class CanvasController {
     @Autowired
     CanvasService canvasService;
 
-
-//    @PostMapping("/post-canvas-data")
-//    public Response PostCanvasData(@RequestBody String data){
-//        log.info("Saving canvas data {} ", data);
-//        Response response = new Response();
-//        String res = "Received data :: " + data;
-//        response.setResponse(res);
-//        return response;
-//    }
-
     @PostMapping("/post-canvas-data")
     public Response PostCanvasData(@RequestBody CanvasData data){
         log.info("Saving canvas data {} ", data);
@@ -52,9 +42,6 @@ public class CanvasController {
         return ResponseEntity.ok(data);
 
     }
-
-
-
 
 
 }
