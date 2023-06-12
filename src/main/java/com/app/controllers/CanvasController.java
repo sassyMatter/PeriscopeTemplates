@@ -4,8 +4,6 @@ package com.app.controllers;
 
 import com.app.models.Response;
 import com.app.models.canvas.CanvasData;
-import com.app.repository.CanvasRepository;
-import com.app.repository.UserRepository;
 import com.app.services.CanvasService;
 import lombok.extern.slf4j.Slf4j;
 
