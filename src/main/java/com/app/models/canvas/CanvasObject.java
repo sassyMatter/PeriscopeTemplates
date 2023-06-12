@@ -1,8 +1,17 @@
 package com.app.models.canvas;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import java.util.ArrayList;
-import java.util.List;
-public class Object{
+
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class CanvasObject {
     public String type;
     public String version;
     public String originX;
@@ -14,7 +23,7 @@ public class Object{
     public String fill;
     public String stroke;
     public int strokeWidth;
-    public Object strokeDashArray;
+    public CanvasObject strokeDashArray;
     public String strokeLineCap;
     public int strokeDashOffset;
     public String strokeLineJoin;
@@ -26,7 +35,7 @@ public class Object{
     public boolean flipX;
     public boolean flipY;
     public int opacity;
-    public Object shadow;
+    public CanvasObject shadow;
     public boolean visible;
     public String backgroundColor;
     public String fillRule;
@@ -35,7 +44,7 @@ public class Object{
     public int skewX;
     public int skewY;
     public String id;
-    public ArrayList<Object> objects;
+    public ArrayList<CanvasObject> canvasObjects;
     public ArrayList<Connection> connections;
     public double x1;
     public double x2;
@@ -44,6 +53,6 @@ public class Object{
     public int cropX;
     public int cropY;
     public String src;
-    public Object crossOrigin;
-    public ArrayList<Object> filters;
+    public CanvasObject crossOrigin;
+    public ArrayList<CanvasObject> filters;
 }
