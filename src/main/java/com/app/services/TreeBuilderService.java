@@ -13,16 +13,16 @@ public class TreeBuilderService {
     public TreeNode buildTree(CanvasData objects){
 
         List<TreeNode> treeNodes = convertObjects(objects);
+//      populating child nodes for each node and setting up the root for the same
 
         return null;
     }
 
 
     public  List<TreeNode> convertObjects(CanvasData oldObjects) {
-        List<TreeNode> newObjects = oldObjects.getObjects().stream()
-                .map(m -> createNewObject(m))
+        return oldObjects.getObjects().stream()
+                .map(this::createNewObject)
                 .collect(Collectors.toList());
-        return newObjects;
     }
 
     public TreeNode createNewObject(CanvasObject canvasObject){
