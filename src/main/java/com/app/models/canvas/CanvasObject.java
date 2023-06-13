@@ -9,6 +9,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Document
 public class CanvasObject {
     public String type;
