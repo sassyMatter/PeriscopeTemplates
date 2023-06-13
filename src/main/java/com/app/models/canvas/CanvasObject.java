@@ -1,9 +1,6 @@
 package com.app.models.canvas;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -11,6 +8,7 @@ import java.util.ArrayList;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 @Document
 public class CanvasObject {
     public String type;
