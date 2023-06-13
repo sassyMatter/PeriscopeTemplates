@@ -9,10 +9,10 @@ public class TreeNode {
 
     public CanvasObject data;
 
-    public List<Connection> connectionList;
+    public List<TreeNode> connections;
 
-    TreeNode(CanvasObject data){
-        this.connectionList = data.getConnections();
+     public TreeNode(CanvasObject data){
+        this.data = data;
     }
 
 }
