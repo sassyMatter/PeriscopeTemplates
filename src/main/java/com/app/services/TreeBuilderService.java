@@ -20,9 +20,10 @@ public class TreeBuilderService {
 
 
     public  List<TreeNode> convertObjects(CanvasData oldObjects) {
-        return oldObjects.getObjects().stream()
+        List<TreeNode> newObjects = oldObjects.getObjects().stream()
                 .map(this::createNewObject)
                 .collect(Collectors.toList());
+        return newObjects;
     }
 
     public TreeNode createNewObject(CanvasObject canvasObject){
