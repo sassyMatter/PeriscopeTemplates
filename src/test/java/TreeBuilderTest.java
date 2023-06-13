@@ -40,6 +40,7 @@ public class TreeBuilderTest {
         Assertions.assertEquals(1, children.size());
 
         TreeNode child = children.get(0);
+        log.info("Child :: {}, {}", child, children);
         Assertions.assertEquals("d08ac4b3-4306-4ae6-9568-cb09e45fb2f0", child.getData().getId());
         // Add more assertions for child properties or further nesting if needed
     }

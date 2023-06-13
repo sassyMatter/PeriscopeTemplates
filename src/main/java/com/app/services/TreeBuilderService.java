@@ -27,6 +27,7 @@ public class TreeBuilderService {
         TreeNode root = null;
         Map<String, TreeNode> treeNodeMap = new HashMap<>();
 
+
         for(int i = 0; i < treeNodes.size(); i++){
             TreeNode node = treeNodes.get(i);
             treeNodeMap.put(node.getData().getId(), node);
@@ -35,12 +36,15 @@ public class TreeBuilderService {
             }
         }
 
+        log.info("Tree node map :: {} ", treeNodeMap);
         for(int i = 0; i < treeNodes.size(); i++){
             TreeNode node = treeNodes.get(i);
+
+            log.info("creating for :: {}" , node);
             List<Connection> connections = node.data.getConnections();
             if(connections != null) {
-                connections.forEach(id -> {
-                    node.addChild(treeNodeMap.get(id));
+                connections.forEach(connection -> {
+                    node.addChild(treeNodeMap.get(connection.getId()));
                 });
             }
 
