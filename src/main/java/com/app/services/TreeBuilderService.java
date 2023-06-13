@@ -81,7 +81,6 @@ public class TreeBuilderService implements com.app.services.interfaces.TreeBuild
 
     public void processNode(TreeNode node) {
         // Perform processing on the node
-        // Example: Print the ID of the node
         System.out.println("Processing node: " + node.getData().getId());
     }
 
