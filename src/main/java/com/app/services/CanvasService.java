@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CanvasService {
+public class CanvasService implements com.app.services.interfaces.CanvasService {
 
     @Autowired
     CanvasRepository canvasRepository;

@@ -4,20 +4,19 @@ import com.app.models.canvas.CanvasData;
 import com.app.models.canvas.CanvasObject;
 import com.app.models.canvas.Connection;
 import com.app.models.canvasSchema.TreeNode;
-import com.sun.source.tree.Tree;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class TreeBuilderService {
+public class TreeBuilderService implements com.app.services.interfaces.TreeBuilderService {
 
+    @Override
     public TreeNode buildTree(CanvasData objects){
 
         List<TreeNode> treeNodes = convertObjects(objects);
@@ -64,6 +63,8 @@ public class TreeBuilderService {
     public TreeNode createNewObject(CanvasObject canvasObject){
         return new TreeNode(canvasObject);
     }
+
+
 
 
 
