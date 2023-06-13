@@ -21,6 +21,7 @@ public class TreeBuilderService {
     public TreeNode buildTree(CanvasData objects){
 
         List<TreeNode> treeNodes = convertObjects(objects);
+        log.info("Tree Nodes :: {}", treeNodes);
 //      populating child nodes for each node and setting up the root for the same
 //      Map to hold canvas objects
         TreeNode root = null;
@@ -37,10 +38,11 @@ public class TreeBuilderService {
         for(int i = 0; i < treeNodes.size(); i++){
             TreeNode node = treeNodes.get(i);
             List<Connection> connections = node.data.getConnections();
-
-            connections.forEach(id ->{
-               node.addChild(treeNodeMap.get(id));
-            });
+            if(connections != null) {
+                connections.forEach(id -> {
+                    node.addChild(treeNodeMap.get(id));
+                });
+            }
 
         }
 

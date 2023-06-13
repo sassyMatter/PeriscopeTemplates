@@ -3,18 +3,21 @@ import com.app.models.canvas.CanvasObject;
 import com.app.models.canvas.Connection;
 import com.app.models.canvasSchema.TreeNode;
 import com.app.services.TreeBuilderService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
+@RunWith(SpringRunner.class)
 public class TreeBuilderTest {
 
 
-    @Autowired
-    TreeBuilderService treeBuilderService;
     @Test
     public void testBuildTree() {
         // Create sample CanvasData objects
@@ -22,9 +25,13 @@ public class TreeBuilderTest {
 
         CanvasData canvasData = createSampleCanvasData();
 
+        log.info("canvas Data {} ", canvasData);
+
+        TreeBuilderService treeBuilderService = new TreeBuilderService();
 
         TreeNode root = treeBuilderService.buildTree(canvasData);
 
+        log.info("tree:: {}" , root);
         // Perform assertions on the tree structure
         Assertions.assertNotNull(root);
         Assertions.assertEquals("input", root.getData().getType());

@@ -2,14 +2,16 @@ package com.app.models.canvasSchema;
 
 import com.app.models.canvas.CanvasObject;
 import com.app.models.canvas.Connection;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class  TreeNode {
 
     public CanvasObject data;
