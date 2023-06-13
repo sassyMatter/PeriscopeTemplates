@@ -41,5 +41,17 @@ public class CanvasController {
 
     }
 
+    @PostMapping("/run-simulation")
+    public Response RunSimulationJob(@RequestBody CanvasData data){
+        log.info("Saving canvas data");
+
+        log.info("Starting simulation job");
+        // will start the whole process of creating Tree and and its implementation, meanwhile
+        // status would be set to IN_PROGRESS
+
+        return null;
+
+    }
+
 
 }
