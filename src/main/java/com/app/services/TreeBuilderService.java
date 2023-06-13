@@ -65,6 +65,29 @@ public class TreeBuilderService implements com.app.services.interfaces.TreeBuild
     }
 
 
+    public void traverseTree(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+
+        // Process the current node
+        processNode(root);
+
+        // Traverse the connected nodes recursively
+        for (TreeNode child : root.getConnections()) {
+            traverseTree(child);
+        }
+    }
+
+    public void processNode(TreeNode node) {
+        // Perform processing on the node
+        // Example: Print the ID of the node
+        System.out.println("Processing node: " + node.getData().getId());
+    }
+
+
+
+
 
 
 

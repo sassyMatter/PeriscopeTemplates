@@ -5,6 +5,7 @@ package com.app.controllers;
 import com.app.models.Response;
 import com.app.models.canvas.CanvasData;
 import com.app.services.CanvasService;
+import com.app.services.TreeBuilderService;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class CanvasController {
 
     @Autowired
     CanvasService canvasService;
+
+    @Autowired
+    TreeBuilderService treeBuilderService;
 
     @PostMapping("/post-canvas-data")
     public Response PostCanvasData(@RequestBody CanvasData data){
@@ -48,6 +52,12 @@ public class CanvasController {
         log.info("Starting simulation job");
         // will start the whole process of creating Tree and and its implementation, meanwhile
         // status would be set to IN_PROGRESS
+
+        // 1. Get Data, for now from DB
+        // 2. Create tree
+        // 3. Print Tree with processing each node
+        // 4. Start writing components: and codeGenerator for same
+
 
         return null;
 
