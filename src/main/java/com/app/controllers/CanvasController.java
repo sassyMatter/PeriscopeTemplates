@@ -4,6 +4,7 @@ package com.app.controllers;
 
 import com.app.models.Response;
 import com.app.models.canvas.CanvasData;
+import com.app.models.canvasSchema.TreeNode;
 import com.app.services.CanvasService;
 import com.app.services.TreeBuilderService;
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +62,27 @@ public class CanvasController {
 
         return null;
 
+    }
+
+    @PostMapping("/test")
+    public Response testController(){
+
+        List<CanvasData> dataList = canvasService.getAllCanvasData();
+
+        for(int i = 0; i < dataList.size(); i++){
+
+            CanvasData data = dataList.get(i);
+            TreeNode root = treeBuilderService.buildTree(data);
+
+            log.info("root :: {}", root);
+
+            treeBuilderService.traverseTree(root);
+
+
+
+        }
+
+        return null;
     }
 
 

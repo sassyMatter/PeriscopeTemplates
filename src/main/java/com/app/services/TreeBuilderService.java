@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +31,7 @@ public class TreeBuilderService implements com.app.services.interfaces.TreeBuild
         for(int i = 0; i < treeNodes.size(); i++){
             TreeNode node = treeNodes.get(i);
             treeNodeMap.put(node.getData().getId(), node);
-            if(node.getData().getType() == "input"){
+            if(Objects.equals(node.getData().getType(), "input")){
                 root = node;
             }
         }
@@ -81,7 +82,7 @@ public class TreeBuilderService implements com.app.services.interfaces.TreeBuild
 
     public void processNode(TreeNode node) {
         // Perform processing on the node
-        System.out.println("Processing node: " + node.getData().getId());
+        System.out.println("Processing node: " + node.getData().getType());
     }
 
 
