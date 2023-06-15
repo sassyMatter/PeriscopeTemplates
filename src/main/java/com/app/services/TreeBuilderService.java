@@ -49,7 +49,6 @@ public class TreeBuilderService implements com.app.services.interfaces.TreeBuild
             }
 
         }
-
         return root;
     }
 

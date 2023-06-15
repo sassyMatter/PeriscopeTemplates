@@ -78,8 +78,6 @@ public class CanvasController {
 
             treeBuilderService.traverseTree(root);
 
-
-
         }
 
         return null;
