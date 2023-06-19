@@ -3,6 +3,7 @@ package com.app.services;
 import com.app.services.interfaces.CodeComponent;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,6 +16,7 @@ import java.util.List;
 @Builder
 @Component
 @NoArgsConstructor(force = true)
+@Slf4j
 public class DatabaseComponent implements CodeComponent {
     private final List<String> tableDefinitions;
 
@@ -36,7 +38,8 @@ public class DatabaseComponent implements CodeComponent {
 
         try {
             for (String tableDefinition : tableDefinitions) {
-//                jdbcTemplate.execute(tableDefinition);
+                log.info("executing:: {} ", tableDefinition);
+                jdbcTemplate.execute(tableDefinition);
 //                execute the table definition
             }
         } catch (Exception e) {

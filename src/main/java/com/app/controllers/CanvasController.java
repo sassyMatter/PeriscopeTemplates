@@ -10,8 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +33,9 @@ public class CanvasController {
 
     @Autowired
     CodeWriterService codeWriterService;
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     @PostMapping("/post-canvas-data")
     public Response PostCanvasData(@RequestBody CanvasData data){
@@ -86,6 +91,7 @@ public class CanvasController {
 
 
         // testing component's with code-writer
+        log.info("Testing components 1.RestInterface \n 2.Function \n 3.Database");
 
         Map<String, String> requestBody = new HashMap<>();
         requestBody.put("String", "var");
@@ -110,7 +116,7 @@ public class CanvasController {
 
         FunctionComponent functionComponent = FunctionComponent
                 .builder()
-                .functionBody("int x = 7; \n int y = 8; \n System.out.println(x+y); return x+y;")
+                .functionBody("   int x = 7; \n    int y = 8; \n   System.out.println(x+y); \n  return x+y;")
                 .parameters(requestBody)
                 .functionName("sumOfNumbers")
                 .returnType("int")
@@ -120,8 +126,28 @@ public class CanvasController {
         log.info("Generated Code for function:: {} ", functionCode);
         codeWriterService.writeToFile(functionCode, "function");
 
+        List<String> tableDefinitions = new ArrayList<>();
+        tableDefinitions.add("CREATE TABLE testTable1 (\n" +
+                "  id INT AUTO_INCREMENT PRIMARY KEY,\n" +
+                "  column1 VARCHAR(255),\n" +
+                "  column2 VARCHAR(255)\n" +
+                ");");
 
-        Response res = Response.builder().response(generatedCode + "\n" + functionCode).build();
+        tableDefinitions.add("CREATE TABLE testTable2 (\n" +
+                "  id INT AUTO_INCREMENT PRIMARY KEY,\n" +
+                "  column1 VARCHAR(255),\n" +
+                "  column2 VARCHAR(255)\n" +
+                ");");
+
+        DatabaseComponent databaseComponent = DatabaseComponent
+                .builder()
+                .jdbcTemplate(jdbcTemplate)
+                .tableDefinitions(tableDefinitions)
+                .build();
+
+        databaseComponent.generateCode();
+
+        Response res = Response.builder().response(generatedCode + "\n\n\n\n" + functionCode).build();
         return res;
     }
 
