@@ -1,21 +1,32 @@
 package com.app.services;
 
 import com.app.services.interfaces.CodeComponent;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+@Builder
 @Component
+@NoArgsConstructor(force = true)
 public class DatabaseComponent implements CodeComponent {
     private final List<String> tableDefinitions;
 
-    @Autowired
+
+    // will have to initialize jdbc template with datasource and all to initiate Database component
+
     private JdbcTemplate jdbcTemplate;
 
-    public DatabaseComponent(List<String> tableDefinitions) {
+    public DatabaseComponent(List<String> tableDefinitions, JdbcTemplate jdbcTemplate) {
         this.tableDefinitions = tableDefinitions;
+        this.jdbcTemplate = jdbcTemplate;
+
     }
 
     @Override
@@ -25,7 +36,8 @@ public class DatabaseComponent implements CodeComponent {
 
         try {
             for (String tableDefinition : tableDefinitions) {
-                jdbcTemplate.execute(tableDefinition);
+//                jdbcTemplate.execute(tableDefinition);
+//                execute the table definition
             }
         } catch (Exception e) {
             throw new RuntimeException("Failed to execute DDL statements", e);

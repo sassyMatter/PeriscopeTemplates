@@ -5,15 +5,16 @@ package com.app.controllers;
 import com.app.models.Response;
 import com.app.models.canvas.CanvasData;
 import com.app.models.canvasSchema.TreeNode;
-import com.app.services.CanvasService;
-import com.app.services.TreeBuilderService;
+import com.app.services.*;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -27,6 +28,9 @@ public class CanvasController {
 
     @Autowired
     TreeBuilderService treeBuilderService;
+
+    @Autowired
+    CodeWriterService codeWriterService;
 
     @PostMapping("/post-canvas-data")
     public Response PostCanvasData(@RequestBody CanvasData data){
@@ -80,7 +84,45 @@ public class CanvasController {
 
         }
 
-        return null;
+
+        // testing component's with code-writer
+
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("String", "var");
+        requestBody.put("Response", "response");
+
+        RestComponent restComponent = RestComponent
+                                     .builder()
+                .apiType("inbound")
+                .url("/ge")
+                .requestBody(requestBody)
+                .headers(new HashMap<>())
+                .httpMethod("PostMapping")
+                .methodName("sumOfNumbers")
+                .requestUrl("/test")
+                .type("rest")
+                .build();
+
+        String generatedCode = restComponent.generateCode();
+        log.info("Generated Code:: {} ", generatedCode);
+
+        codeWriterService.writeToFile(generatedCode, "rest");
+
+        FunctionComponent functionComponent = FunctionComponent
+                .builder()
+                .functionBody("int x = 7; \n int y = 8; \n System.out.println(x+y); return x+y;")
+                .parameters(requestBody)
+                .functionName("sumOfNumbers")
+                .returnType("int")
+                .build();
+
+        String functionCode = functionComponent.generateCode();
+        log.info("Generated Code for function:: {} ", functionCode);
+        codeWriterService.writeToFile(functionCode, "function");
+
+
+        Response res = Response.builder().response(generatedCode + "\n" + functionCode).build();
+        return res;
     }
 
 

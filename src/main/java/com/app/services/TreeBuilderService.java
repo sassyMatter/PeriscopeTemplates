@@ -5,6 +5,7 @@ import com.app.models.canvas.CanvasObject;
 import com.app.models.canvas.Connection;
 import com.app.models.canvasSchema.TreeNode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -16,6 +17,9 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class TreeBuilderService implements com.app.services.interfaces.TreeBuilderService {
+
+    @Autowired
+    RestComponent restComponent;
 
     @Override
     public TreeNode buildTree(CanvasData objects){
@@ -82,6 +86,9 @@ public class TreeBuilderService implements com.app.services.interfaces.TreeBuild
     public void processNode(TreeNode node) {
         // Perform processing on the node
         System.out.println("Processing node: " + node.getData().getType());
+        if("rest".equals(node.getData().getType())){
+
+        }
     }
 
 
