@@ -15,12 +15,4 @@ public class CustomCodeService {
 
 
 
-
-
-
-   public void testConfiguration() {
-     // printing value
-System.out.println(value);
-   }
-
 }

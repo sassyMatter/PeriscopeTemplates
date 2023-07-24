@@ -46,7 +46,7 @@ public class CanvasController {
     @PostMapping("/post-canvas-data")
     public Response PostCanvasData(@RequestBody CanvasData data){
         log.info("Saving canvas data {} ", data);
-        canvasService.saveCanvasData(data);
+//        canvasService.saveCanvasData(data);
         Response response = new Response();
         String res = "Received data :: " + data;
         response.setResponse(res);
