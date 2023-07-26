@@ -113,6 +113,7 @@ public class TreeBuilderService implements com.app.services.interfaces.TreeBuild
      */
 
     public void processGraph(TreeNode rootNode) {
+        log.info("Starting simulation");
         Stack<TreeNode> globalStack = new Stack<>();
         Stack<TreeNode> configStack = new Stack<>();
         globalStack.push(rootNode);
@@ -122,7 +123,7 @@ public class TreeBuilderService implements com.app.services.interfaces.TreeBuild
             TreeNode current = globalStack.pop();
 
             // Separate configuration nodes and execution nodes
-            if (getNodeExecutionType(current.data.getType()).equals("execution") && !processedNodes.contains(current.data.id)) {
+            if (getNodeExecutionType(current.data.getType()).equals(SysConstants.EXECUTION) && !processedNodes.contains(current.data.id)) {
 
                 configStack.push(current);
                 processedNodes.add(current.data.id);

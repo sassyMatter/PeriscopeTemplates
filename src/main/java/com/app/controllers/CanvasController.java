@@ -188,74 +188,74 @@ public class CanvasController {
 
         }
 
-        CanvasData data = dataList.get(0);
-
-        List<CanvasObject> objects = data.getObjects();
-        for(int i = 0; i < objects.size(); i++){
-            CanvasObject object = objects.get(i);
-            log.info("type is :: {}, \n object :: {}",  object.getType(), object);
-            if(Objects.equals(object.type, "rest")){
-                // generate code for rest
-                RestComponent restComponent = RestComponent
-                        .builder()
-                        .apiType(object.getApiType())
-                        .url(object.getUrl())
-//                        .requestBody()
-                        .headers(new HashMap<>())
-                        .httpMethod(object.getHttpMethod())
-                        .methodName(object.getMethodName())
-                        .requestUrl(object.requestUrl)
-                        .requestBody(object.requestBody)
-                        .type(object.getType())
-                        .build();
-
-                String generatedCode = restComponent.generateCode();
-
-                codeWriterService.writeToFile(generatedCode, "rest");
-                log.info("Generated Code for rest {} ", generatedCode);
-
-            }
-            if(Objects.equals(object.type, "func")){
-                // generate code for func
-                FunctionComponent functionComponent = FunctionComponent
-                        .builder()
-                        .functionBody(object.functionBody)
-                        .parameters(object.parameters)
-                        .functionName(object.functionName)
-                        .functionType(object.functionType)
-                        .returnType(object.returnType)
-                        .build();
-
-                String functionCode = functionComponent.generateCode();
-                log.info("Generated Code for function:: {} ", functionCode);
-                codeWriterService.writeToFile(functionCode, "function");
-                log.info("Generated Code for function {} ", functionCode);
-            }
-            if(Objects.equals(object.type, "database")){
-                // generate code for database
-                DatabaseComponent databaseComponent = DatabaseComponent
-                        .builder()
-                        .jdbcTemplate(jdbcTemplate)
-                        .tableDefinitions(object.tableDefinitions)
-                        .build();
-
-                databaseComponent.generateCode();
-                log.info("Configured Database");
-            }
-            if(Objects.equals(object.type, "queue")){
-                // generate code for queue
-                log.info("Creating queue component...");
-                QueueComponent queueComponent = QueueComponent
-                        .builder()
-                        .topic(object.topic)
-                        .kafkaAdmin(kafkaAdmin)
-                        .build();
-
-                queueComponent.configureQueue();
-                log.info("Configured queue component {} ", queueComponent);
-            }
-            log.info("Simulation would start in next run, it is configured");
-        }
+//        CanvasData data = dataList.get(0);
+//
+//        List<CanvasObject> objects = data.getObjects();
+//        for(int i = 0; i < objects.size(); i++){
+//            CanvasObject object = objects.get(i);
+//            log.info("type is :: {}, \n object :: {}",  object.getType(), object);
+//            if(Objects.equals(object.type, "rest")){
+//                // generate code for rest
+//                RestComponent restComponent = RestComponent
+//                        .builder()
+//                        .apiType(object.getApiType())
+//                        .url(object.getUrl())
+////                        .requestBody()
+//                        .headers(new HashMap<>())
+//                        .httpMethod(object.getHttpMethod())
+//                        .methodName(object.getMethodName())
+//                        .requestUrl(object.requestUrl)
+//                        .requestBody(object.requestBody)
+//                        .type(object.getType())
+//                        .build();
+//
+//                String generatedCode = restComponent.generateCode();
+//
+//                codeWriterService.writeToFile(generatedCode, "rest");
+//                log.info("Generated Code for rest {} ", generatedCode);
+//
+//            }
+//            if(Objects.equals(object.type, "func")){
+//                // generate code for func
+//                FunctionComponent functionComponent = FunctionComponent
+//                        .builder()
+//                        .functionBody(object.functionBody)
+//                        .parameters(object.parameters)
+//                        .functionName(object.functionName)
+//                        .functionType(object.functionType)
+//                        .returnType(object.returnType)
+//                        .build();
+//
+//                String functionCode = functionComponent.generateCode();
+//                log.info("Generated Code for function:: {} ", functionCode);
+//                codeWriterService.writeToFile(functionCode, "function");
+//                log.info("Generated Code for function {} ", functionCode);
+//            }
+//            if(Objects.equals(object.type, "database")){
+//                // generate code for database
+//                DatabaseComponent databaseComponent = DatabaseComponent
+//                        .builder()
+//                        .jdbcTemplate(jdbcTemplate)
+//                        .tableDefinitions(object.tableDefinitions)
+//                        .build();
+//
+//                databaseComponent.generateCode();
+//                log.info("Configured Database");
+//            }
+//            if(Objects.equals(object.type, "queue")){
+//                // generate code for queue
+//                log.info("Creating queue component...");
+//                QueueComponent queueComponent = QueueComponent
+//                        .builder()
+//                        .topic(object.topic)
+//                        .kafkaAdmin(kafkaAdmin)
+//                        .build();
+//
+//                queueComponent.configureQueue();
+//                log.info("Configured queue component {} ", queueComponent);
+//            }
+//            log.info("Simulation would start in next run, it is configured");
+//        }
 
         Response res = Response.builder().response("Simulation Success").build();
         return res;
