@@ -73,7 +73,7 @@ public class FunctionComponent implements CodeComponent {
         codeBuilder.append("   public ");
         codeBuilder.append(returnType).append(" " + functionName).append("(");
         boolean isFirstParameter = true;
-
+        log.info("parameters:: {} ", parameters);
         if (parameters != null) {
             for (Map.Entry<String, String> entry : parameters.entrySet()) {
                 if (!isFirstParameter) {

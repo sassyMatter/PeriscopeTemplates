@@ -4,14 +4,18 @@ import com.app.models.canvas.CanvasData;
 import com.app.models.canvas.CanvasObject;
 import com.app.models.canvas.Connection;
 import com.app.models.canvasSchema.TreeNode;
+import com.app.models.enums.ConfigurationNodes;
+import com.app.models.enums.ExecutionNodes;
+import com.app.utils.SysConstants;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,6 +24,15 @@ public class TreeBuilderService implements com.app.services.interfaces.TreeBuild
 
     @Autowired
     RestComponent restComponent;
+
+    @Autowired
+    CodeWriterService codeWriterService;
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    KafkaAdmin kafkaAdmin;
 
     @Override
     public TreeNode buildTree(CanvasData objects){
@@ -69,6 +82,8 @@ public class TreeBuilderService implements com.app.services.interfaces.TreeBuild
     }
 
 
+
+
     public void traverseTree(TreeNode root) {
         if (root == null) {
             return;
@@ -90,6 +105,139 @@ public class TreeBuilderService implements com.app.services.interfaces.TreeBuild
 
         }
     }
+
+    /**
+     *
+     * @param rootNode goes to rootNode executing configuration nodes immediately and execution node eventually
+     * error reporting in execution of any node can be reported from here, this kind of feedback would be essential in future
+     */
+
+    public void processGraph(TreeNode rootNode) {
+        Stack<TreeNode> globalStack = new Stack<>();
+        Stack<TreeNode> configStack = new Stack<>();
+        globalStack.push(rootNode);
+        Set<String> processedNodes = new HashSet<>();
+
+        while (!globalStack.isEmpty()) {
+            TreeNode current = globalStack.pop();
+
+            // Separate configuration nodes and execution nodes
+            if (getNodeExecutionType(current.data.getType()).equals("execution") && !processedNodes.contains(current.data.id)) {
+
+                configStack.push(current);
+                processedNodes.add(current.data.id);
+
+            }else if(!processedNodes.contains(current.data.id)) {
+                processConfigurationNode(current);
+                processedNodes.add(current.data.id);
+            }
+
+
+            for (int i = 0; i < current.connections.size(); i--) {
+                TreeNode child = current.connections.get(i);
+
+                if(!processedNodes.contains(child.data.id)) {
+                    globalStack.push(child);
+                    processedNodes.add(current.data.id);
+                }
+
+            }
+        }
+
+        // Process configuration nodes
+        while (!configStack.isEmpty()) {
+            TreeNode currentConfigNode = configStack.pop();
+            processExecutionNode(currentConfigNode);
+        }
+    }
+
+
+    private void processExecutionNode(TreeNode node) {
+        // Process execution node
+        System.out.println("Processing execution node: " + node.data);
+        CanvasObject object = node.data;
+        log.info("type is :: {}, \n object :: {}",  object.getType(), object);
+        if(Objects.equals(object.type, "rest")){
+            // generate code for rest
+            RestComponent restComponent = RestComponent
+                    .builder()
+                    .apiType(object.getApiType())
+                    .url(object.getUrl())
+                    .headers(new HashMap<>())
+                    .httpMethod(object.getHttpMethod())
+                    .methodName(object.getMethodName())
+                    .requestUrl(object.requestUrl)
+                    .requestBody(object.requestBody)
+                    .type(object.getType())
+                    .build();
+
+            String generatedCode = restComponent.generateCode();
+
+            codeWriterService.writeToFile(generatedCode, "rest");
+            log.info("Generated Code for rest {} ", generatedCode);
+
+        }
+        if(Objects.equals(object.type, "func")){
+            // generate code for func
+            FunctionComponent functionComponent = FunctionComponent
+                    .builder()
+                    .functionBody(object.functionBody)
+                    .parameters(object.parameters)
+                    .functionName(object.functionName)
+                    .functionType(object.functionType)
+                    .returnType(object.returnType)
+                    .build();
+
+            String functionCode = functionComponent.generateCode();
+            log.info("Generated Code for function:: {} ", functionCode);
+            codeWriterService.writeToFile(functionCode, "function");
+            log.info("Generated Code for function {} ", functionCode);
+        }
+    }
+
+    private void processConfigurationNode(TreeNode node) {
+        // Process configuration node
+        System.out.println("Processing configuration node: " + node.data);
+        CanvasObject object = node.data;
+        if(Objects.equals(object.type, "database")){
+            // generate code for database
+            DatabaseComponent databaseComponent = DatabaseComponent
+                    .builder()
+                    .jdbcTemplate(jdbcTemplate)
+                    .tableDefinitions(object.tableDefinitions)
+                    .build();
+
+            databaseComponent.generateCode();
+            log.info("Configured Database");
+        }
+        if(Objects.equals(object.type, "queue")){
+            // generate code for queue
+            log.info("Creating queue component...");
+            QueueComponent queueComponent = QueueComponent
+                    .builder()
+                    .topic(object.topic)
+                    .kafkaAdmin(kafkaAdmin)
+                    .build();
+
+            queueComponent.configureQueue();
+            log.info("Configured queue component {} ", queueComponent);
+        }
+    }
+
+    private String getNodeExecutionType(String type) {
+
+        if(EnumUtils.isValidEnum(ExecutionNodes.class,  ExecutionNodes.getByValue(type).name())){
+
+            return SysConstants.EXECUTION;
+
+        }
+        else if(EnumUtils.isValidEnum(ConfigurationNodes.class, ConfigurationNodes.getByValue(type).name())){
+            return SysConstants.CONFIGURATION;
+        }
+       return SysConstants.INVALID;
+    }
+
+
 
 
 

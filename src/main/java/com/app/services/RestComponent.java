@@ -15,20 +15,23 @@ public class RestComponent implements CodeComponent {
     private final String type;
     private final Map<String, String> headers;
     private final Map<String, String> requestBody;
+    private final Map<String, String> parameters;
     private final String requestUrl;
     private final String apiType;
     private final String httpMethod;
+
 
     // should have a list of method names and their return value
     private final String methodName;
 
     public RestComponent(String url, String type, Map<String, String> headers,
-                         Map<String, String> requestBody, String requestUrl,
+                         Map<String, String> requestBody, Map<String, String> parameters, String requestUrl,
                          String apiType, String httpMethod, String methodName) {
         this.url = url;
         this.type = type;
         this.headers = headers;
         this.requestBody = requestBody;
+        this.parameters = parameters;
         this.requestUrl = requestUrl;
         this.apiType = apiType;
         this.httpMethod = httpMethod;

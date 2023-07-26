@@ -46,7 +46,7 @@ public class CanvasController {
     @PostMapping("/post-canvas-data")
     public Response PostCanvasData(@RequestBody CanvasData data){
         log.info("Saving canvas data {} ", data);
-//        canvasService.saveCanvasData(data);
+        canvasService.saveCanvasData(data);
         Response response = new Response();
         String res = "Received data :: " + data;
         response.setResponse(res);
@@ -183,7 +183,8 @@ public class CanvasController {
 
             log.info("root :: {}", root);
 
-            treeBuilderService.traverseTree(root);
+//            treeBuilderService.traverseTree(root);
+            treeBuilderService.processGraph(root);
 
         }
 
@@ -204,19 +205,22 @@ public class CanvasController {
                         .httpMethod(object.getHttpMethod())
                         .methodName(object.getMethodName())
                         .requestUrl(object.requestUrl)
+                        .requestBody(object.requestBody)
                         .type(object.getType())
                         .build();
 
                 String generatedCode = restComponent.generateCode();
-                log.info("Generated Code for rest {} ", generatedCode);
+
                 codeWriterService.writeToFile(generatedCode, "rest");
+                log.info("Generated Code for rest {} ", generatedCode);
+
             }
             if(Objects.equals(object.type, "func")){
                 // generate code for func
                 FunctionComponent functionComponent = FunctionComponent
                         .builder()
                         .functionBody(object.functionBody)
-//                        .parameters()
+                        .parameters(object.parameters)
                         .functionName(object.functionName)
                         .functionType(object.functionType)
                         .returnType(object.returnType)
@@ -225,6 +229,7 @@ public class CanvasController {
                 String functionCode = functionComponent.generateCode();
                 log.info("Generated Code for function:: {} ", functionCode);
                 codeWriterService.writeToFile(functionCode, "function");
+                log.info("Generated Code for function {} ", functionCode);
             }
             if(Objects.equals(object.type, "database")){
                 // generate code for database
@@ -235,6 +240,7 @@ public class CanvasController {
                         .build();
 
                 databaseComponent.generateCode();
+                log.info("Configured Database");
             }
             if(Objects.equals(object.type, "queue")){
                 // generate code for queue
@@ -244,8 +250,9 @@ public class CanvasController {
                         .topic(object.topic)
                         .kafkaAdmin(kafkaAdmin)
                         .build();
-                log.info("Queue component {} ", queueComponent);
+
                 queueComponent.configureQueue();
+                log.info("Configured queue component {} ", queueComponent);
             }
             log.info("Simulation would start in next run, it is configured");
         }
