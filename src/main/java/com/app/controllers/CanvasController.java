@@ -63,24 +63,23 @@ public class CanvasController {
 
     @PostMapping("/run-simulation")
     public Response RunSimulationJob(@RequestBody CanvasData data){
-        log.info("Saving canvas data");
-
+        log.info("Saving canvas data {} ", data);
+        canvasService.saveCanvasData(data);
         log.info("Starting simulation job");
         // will start the whole process of creating Tree and and its implementation, meanwhile
         // status would be set to IN_PROGRESS
 
-        // 1. Get Data, for now from DB
-        // 2. Create tree
-        // 3. Print Tree with processing each node
-        // 4. Start writing components: and codeGenerator for same
+        TreeNode root = treeBuilderService.buildTree(data);
+        log.info("root :: {}", root);
+        treeBuilderService.processGraph(root);
 
-
-
-
-        return null;
+        Response res = Response.builder().response("Simulation Success").build();
+        return res;
 
     }
 
+
+    // manual test for components
     @PostMapping("/test")
     public Response testController(){
 
@@ -171,6 +170,8 @@ public class CanvasController {
     }
 
 
+
+    //api test for simulation
     @PostMapping("/simulation-test")
     public Response simulationController(){
 

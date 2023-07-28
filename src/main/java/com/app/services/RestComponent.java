@@ -58,8 +58,8 @@ public class RestComponent implements CodeComponent {
         // Generate code for request body
         if (requestBody != null && !requestBody.isEmpty()) {
             for (Map.Entry<String, String> entry : requestBody.entrySet()) {
-                String variableType = entry.getKey();
-                String variableName = entry.getValue();
+                String variableName = entry.getKey();
+                String variableType = entry.getValue();
                 codeBuilder.append(variableType).append(" ").append(variableName).append(", ");
             }
         }
@@ -80,10 +80,10 @@ public class RestComponent implements CodeComponent {
         }
 
         if (requestBody != null && !requestBody.isEmpty()) {
-            codeBuilder.append(requestBody.values().toString().replaceAll("[\\[\\]]", ""));
+            codeBuilder.append(requestBody.keySet().toString().replaceAll("[\\[\\]]", ""));
         }
 
-        // adding support for sending data
+        // adding support for sending data back
         codeBuilder.append(");").append("\n");
         codeBuilder.append("        return ResponseEntity.ok().build();").append("\n");
         codeBuilder.append("    }").append("\n");

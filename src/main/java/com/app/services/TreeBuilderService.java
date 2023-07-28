@@ -23,9 +23,6 @@ import java.util.stream.Collectors;
 public class TreeBuilderService implements com.app.services.interfaces.TreeBuilderService {
 
     @Autowired
-    RestComponent restComponent;
-
-    @Autowired
     CodeWriterService codeWriterService;
 
     @Autowired
@@ -113,7 +110,7 @@ public class TreeBuilderService implements com.app.services.interfaces.TreeBuild
      */
 
     public void processGraph(TreeNode rootNode) {
-        log.info("Starting simulation");
+        log.info("Starting simulation...");
         Stack<TreeNode> globalStack = new Stack<>();
         Stack<TreeNode> configStack = new Stack<>();
         globalStack.push(rootNode);

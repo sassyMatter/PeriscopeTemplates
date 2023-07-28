@@ -79,7 +79,7 @@ public class FunctionComponent implements CodeComponent {
                 if (!isFirstParameter) {
                     codeBuilder.append(", ");
                 }
-                codeBuilder.append(entry.getKey()).append(" ").append(entry.getValue());
+                codeBuilder.append(entry.getValue()).append(" ").append(entry.getKey());
                 isFirstParameter = false;
             }
         }
