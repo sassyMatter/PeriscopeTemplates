@@ -103,14 +103,14 @@ public class FunctionComponent implements CodeComponent {
         StringBuilder codeBuilder = new StringBuilder();
 
         // Append annotations
-        codeBuilder.append("@KafkaListener(topics = \"").append(topic).append(")").append("\n");
+        codeBuilder.append("@KafkaListener(topics = \"").append(topic + "\"").append(")").append("\n");
 
         // Append method signature
         codeBuilder.append("public void process").append(toCamelCase(topic)).append("(String ")
                 .append(toCamelCase(topic)).append("JSON)").append(" {").append("\n");
 
         // Append logging statement
-        codeBuilder.append("    logger.info(\"received content = '{}'\", ").append(toCamelCase(topic)).append("JSON);")
+        codeBuilder.append("    log.info(\"received content = '{}'\", ").append(toCamelCase(topic)).append("JSON);")
                 .append("\n");
 
         // Append try-catch block for deserialization
@@ -120,11 +120,11 @@ public class FunctionComponent implements CodeComponent {
                 .append(" = mapper.readValue(").append(toCamelCase(topic)).append("JSON, ")
                 .append(deserializationClass).append(".class);").append("\n");
         codeBuilder.append("        // Add your custom processing logic here").append("\n");
-        codeBuilder.append("        logger.info(\"Success process ").append(toCamelCase(topic))
-                .append(" '{}' with topic '{}'\", ").append(toCamelCase(topic)).append(".getBrandName(), \"")
+        codeBuilder.append("        log.info(\"Success parsing received object ")
+                .append(" '{}' with topic '{}'\", ").append(toCamelCase(topic)).append(", \"")
                 .append(topic).append("\");").append("\n");
         codeBuilder.append("    } catch (Exception e) {").append("\n");
-        codeBuilder.append("        logger.error(\"An error occurred! '{}'\", e.getMessage());").append("\n");
+        codeBuilder.append("        log.error(\"An error occurred! '{}'\", e.getMessage());").append("\n");
         codeBuilder.append("    }").append("\n");
 
         codeBuilder.append("}").append("\n");

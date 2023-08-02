@@ -100,72 +100,71 @@ public class CanvasController {
         // testing component's with code-writer
         log.info("Testing components 1.RestInterface \n 2.Function \n 3.Database");
 
-        Map<String, String> requestBody = new HashMap<>();
-        requestBody.put("String", "var");
-        requestBody.put("Response", "response");
-
-        RestComponent restComponent = RestComponent
-                                     .builder()
-                .apiType("inbound")
-                .url("/ge")
-                .requestBody(requestBody)
-                .headers(new HashMap<>())
-                .httpMethod("PostMapping")
-                .methodName("sumOfNumbers")
-                .requestUrl("/test")
-                .type("rest")
-                .build();
-
-        String generatedCode = restComponent.generateCode();
-        log.info("Generated Code:: {} ", generatedCode);
-
-        codeWriterService.writeToFile(generatedCode, "rest");
+//        Map<String, String> requestBody = new HashMap<>();
+//        requestBody.put("String", "var");
+//        requestBody.put("Response", "response");
+//
+//        RestComponent restComponent = RestComponent
+//                                     .builder()
+//                .apiType("inbound")
+//                .url("/ge")
+//                .requestBody(requestBody)
+//                .headers(new HashMap<>())
+//                .httpMethod("PostMapping")
+//                .methodName("sumOfNumbers")
+//                .requestUrl("/test")
+//                .type("rest")
+//                .build();
+//
+//        String generatedCode = restComponent.generateCode();
+//        log.info("Generated Code:: {} ", generatedCode);
+//
+//        codeWriterService.writeToFile(generatedCode, "rest");
 
         FunctionComponent functionComponent = FunctionComponent
                 .builder()
-                .functionBody("   int x = 7; \n    int y = 8; \n   System.out.println(x+y); \n  return x+y;")
-                .parameters(requestBody)
-                .functionName("sumOfNumbers")
-                .returnType("int")
+                .topic("test")
+                .deserializationClass("User")
+                .functionType("consumer")
                 .build();
 
         String functionCode = functionComponent.generateCode();
         log.info("Generated Code for function:: {} ", functionCode);
         codeWriterService.writeToFile(functionCode, "function");
 
-        List<String> tableDefinitions = new ArrayList<>();
-        tableDefinitions.add("CREATE TABLE testTable1 (\n" +
-                "  id INT AUTO_INCREMENT PRIMARY KEY,\n" +
-                "  column1 VARCHAR(255),\n" +
-                "  column2 VARCHAR(255)\n" +
-                ");");
+//        List<String> tableDefinitions = new ArrayList<>();
+//        tableDefinitions.add("CREATE TABLE testTable1 (\n" +
+//                "  id INT AUTO_INCREMENT PRIMARY KEY,\n" +
+//                "  column1 VARCHAR(255),\n" +
+//                "  column2 VARCHAR(255)\n" +
+//                ");");
+//
+//        tableDefinitions.add("CREATE TABLE testTable2 (\n" +
+//                "  id INT AUTO_INCREMENT PRIMARY KEY,\n" +
+//                "  column1 VARCHAR(255),\n" +
+//                "  column2 VARCHAR(255)\n" +
+//                ");");
 
-        tableDefinitions.add("CREATE TABLE testTable2 (\n" +
-                "  id INT AUTO_INCREMENT PRIMARY KEY,\n" +
-                "  column1 VARCHAR(255),\n" +
-                "  column2 VARCHAR(255)\n" +
-                ");");
+//        DatabaseComponent databaseComponent = DatabaseComponent
+//                .builder()
+//                .jdbcTemplate(jdbcTemplate)
+//                .tableDefinitions(tableDefinitions)
+//                .build();
+//
+//        databaseComponent.generateCode();
 
-        DatabaseComponent databaseComponent = DatabaseComponent
-                .builder()
-                .jdbcTemplate(jdbcTemplate)
-                .tableDefinitions(tableDefinitions)
-                .build();
-
-        databaseComponent.generateCode();
-
-        log.info("Creating queue component...");
-        QueueComponent queueComponent = QueueComponent
-                .builder()
-                .topic("TestQueue")
-                .kafkaAdmin(kafkaAdmin)
-                .build();
-        log.info("Queue component {} ", queueComponent);
-        queueComponent.configureQueue();
+//        log.info("Creating queue component...");
+//        QueueComponent queueComponent = QueueComponent
+//                .builder()
+//                .topic("TestQueue")
+//                .kafkaAdmin(kafkaAdmin)
+//                .build();
+//        log.info("Queue component {} ", queueComponent);
+//        queueComponent.configureQueue();
 
 
 
-        Response res = Response.builder().response(generatedCode + "\n\n\n\n" + functionCode).build();
+        Response res = Response.builder().response(functionCode).build();
         return res;
     }
 
