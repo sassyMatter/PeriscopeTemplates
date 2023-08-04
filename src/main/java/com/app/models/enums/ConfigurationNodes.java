@@ -7,6 +7,8 @@ public enum ConfigurationNodes {
     DATABASE("database"),
     QUEUE("queue"),
 
+    INPUT("input"),
+
     INVALID("invalid");
 
     private final String value;

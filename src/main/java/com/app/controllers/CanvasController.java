@@ -4,9 +4,9 @@ package com.app.controllers;
 
 import com.app.models.Response;
 import com.app.models.canvas.CanvasData;
-import com.app.models.canvas.CanvasObject;
 import com.app.models.canvasSchema.TreeNode;
 import com.app.services.*;
+import com.app.utils.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,8 @@ import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 
@@ -81,7 +83,7 @@ public class CanvasController {
 
     // manual test for components
     @PostMapping("/test")
-    public Response testController(){
+    public Response testController(@RequestBody String json , @RequestParam String typeName) throws IOException {
 
         List<CanvasData> dataList = canvasService.getAllCanvasData();
 
@@ -130,7 +132,23 @@ public class CanvasController {
 
         String functionCode = functionComponent.generateCode();
         log.info("Generated Code for function:: {} ", functionCode);
-        codeWriterService.writeToFile(functionCode, "function");
+//        codeWriterService.writeToFile(functionCode, "function");
+
+        log.info("Testing JSON converter");
+
+//        jsonList.forEach(json -> {
+//            try {
+//                UtilityClass.convertJsonToJavaClass(json, UtilityClass.OUTPUT_CLASS_DIRECTORY, UtilityClass.PACKAGE_NAME, typeName);
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//        });
+
+
+
+        UtilityClass.convertJsonToJavaClass(json, UtilityClass.OUTPUT_CLASS_DIRECTORY, UtilityClass.PACKAGE_NAME, typeName);
+
+
 
 //        List<String> tableDefinitions = new ArrayList<>();
 //        tableDefinitions.add("CREATE TABLE testTable1 (\n" +

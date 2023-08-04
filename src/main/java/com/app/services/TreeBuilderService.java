@@ -220,6 +220,15 @@ public class TreeBuilderService implements com.app.services.interfaces.TreeBuild
             queueComponent.configureQueue();
             log.info("Configured queue component {} ", queueComponent);
         }
+        if(Objects.equals(object.type, "input")){
+            log.info("Creating input component...");
+            InputComponent inputComponent = InputComponent
+                    .builder()
+                    .customTypes(object.customTypes)
+                    .build();
+            inputComponent.generateCode();
+            log.info("Configured input component {} ", inputComponent);
+        }
     }
 
     private String getNodeExecutionType(String type) {

@@ -63,6 +63,11 @@ public class CanvasObject {
 
     // custom parameters
 
+//    input
+    @JsonDeserialize(using = MapDeserializer.class)
+    @JsonSerialize(using = MapSerializer.class)
+    public Map<String, String> customTypes;
+
 //    function
 
     @JsonDeserialize(using = MapDeserializer.class)
