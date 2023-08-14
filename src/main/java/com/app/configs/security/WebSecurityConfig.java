@@ -15,18 +15,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-//import com.bezkoder.spring.jwt.mongodb.security.jwt.AuthEntryPointJwt;
-//import com.bezkoder.spring.jwt.mongodb.security.jwt.AuthTokenFilter;
-//import com.bezkoder.spring.jwt.mongodb.security.services.UserDetailsServiceImpl;
 
 
 @Configuration
-//@EnableWebSecurity
 @EnableMethodSecurity
-//(securedEnabled = true,
-//jsr250Enabled = true,
-//prePostEnabled = true) // by default
-public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
