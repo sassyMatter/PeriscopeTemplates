@@ -125,13 +125,14 @@ public class TreeBuilderService implements com.app.services.interfaces.TreeBuild
                 configStack.push(current);
                 processedNodes.add(current.data.id);
 
-            }else if(!processedNodes.contains(current.data.id)) {
+            }
+            if(getNodeExecutionType(current.data.getType()).equals(SysConstants.CONFIGURATION) && !processedNodes.contains(current.data.id)) {
                 processConfigurationNode(current);
                 processedNodes.add(current.data.id);
             }
 
 
-            for (int i = 0; i < current.connections.size(); i--) {
+            for (int i = 0; i < current.connections.size(); i++) {
                 TreeNode child = current.connections.get(i);
 
                 if(!processedNodes.contains(child.data.id)) {
@@ -184,6 +185,8 @@ public class TreeBuilderService implements com.app.services.interfaces.TreeBuild
                     .functionName(object.functionName)
                     .functionType(object.functionType)
                     .returnType(object.returnType)
+                    .topic(object.topic)
+                    .deserializationClass(object.deserializationClass)
                     .build();
 
             String functionCode = functionComponent.generateCode();
@@ -234,12 +237,18 @@ public class TreeBuilderService implements com.app.services.interfaces.TreeBuild
     private String getNodeExecutionType(String type) {
 
         if(EnumUtils.isValidEnum(ExecutionNodes.class,  ExecutionNodes.getByValue(type).name())){
-
-            return SysConstants.EXECUTION;
+//            log.info("Execution Node :: {} ", type , " value::  " + ExecutionNodes.getByValue(type).name());
+            log.info("Execution Node real value :: {} ",  ExecutionNodes.getByValue(type).name());
+            if(!ExecutionNodes.getByValue(type).name().equals("INVALID")) {
+                return SysConstants.EXECUTION;
+            }
 
         }
-        else if(EnumUtils.isValidEnum(ConfigurationNodes.class, ConfigurationNodes.getByValue(type).name())){
-            return SysConstants.CONFIGURATION;
+
+        if(EnumUtils.isValidEnum(ConfigurationNodes.class, ConfigurationNodes.getByValue(type).name())){
+            log.info("Configuration Node :: {}", type);
+            if(!ConfigurationNodes.getByValue(type).name().equals("INVALID"))
+                 return SysConstants.CONFIGURATION;
         }
        return SysConstants.INVALID;
     }

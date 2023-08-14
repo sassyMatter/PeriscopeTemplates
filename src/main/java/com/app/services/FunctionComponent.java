@@ -23,7 +23,7 @@ public class FunctionComponent implements CodeComponent {
 
 
     // to be used for converting to and from json
-    private final String deserializationClass;
+    private String deserializationClass;
 
     // function type : computation, listener, producer
     private final String functionType;
@@ -51,7 +51,7 @@ public class FunctionComponent implements CodeComponent {
             case "Vanilla":
                 log.info("generating code for functionType: {} ", functionType);
                 return generateVanillaFunction();
-            case "consumer":
+            case "Consumer":
                 return generateConsumer();
             case "producer":
                 // later can be changed, for now the scoped function inside
@@ -100,6 +100,7 @@ public class FunctionComponent implements CodeComponent {
 
 
     private String generateConsumer() {
+//        this.deserializationClass = "CustomType";
         StringBuilder codeBuilder = new StringBuilder();
 
         // Append annotations
@@ -121,8 +122,8 @@ public class FunctionComponent implements CodeComponent {
                 .append(deserializationClass).append(".class);").append("\n");
         codeBuilder.append("        // Add your custom processing logic here").append("\n");
         codeBuilder.append("        log.info(\"Success parsing received object ")
-                .append(" '{}' with topic '{}'\", ").append(toCamelCase(topic)).append(", \"")
-                .append(topic).append("\");").append("\n");
+                .append(" '{}' with topic '{}'\", ").append(toCamelCase(topic))
+                .append(");").append("\n");
         codeBuilder.append("    } catch (Exception e) {").append("\n");
         codeBuilder.append("        log.error(\"An error occurred! '{}'\", e.getMessage());").append("\n");
         codeBuilder.append("    }").append("\n");
@@ -138,6 +139,7 @@ public class FunctionComponent implements CodeComponent {
         for (int i = 1; i < words.length; i++) {
             camelCaseBuilder.append(words[i].substring(0, 1).toUpperCase()).append(words[i].substring(1).toLowerCase());
         }
+
         return camelCaseBuilder.toString();
     }
 
