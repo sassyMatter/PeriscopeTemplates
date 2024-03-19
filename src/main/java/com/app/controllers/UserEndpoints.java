@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserEndpoints {
 
     @Autowired
-    CustomCodeService customCodeService;
+    CustomCodeService myService;
 
 
 
