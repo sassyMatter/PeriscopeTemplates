@@ -37,6 +37,7 @@ services:
     platform: linux/amd64
 
 
+
   spring-app:
     #    container_name: backend
     build:
