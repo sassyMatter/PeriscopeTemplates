@@ -10,7 +10,7 @@ services:
     networks:
       internal-network:
 
-    container_name: mysql-db-test
+#    container_name: mysql-db-test
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: 'periscope'
