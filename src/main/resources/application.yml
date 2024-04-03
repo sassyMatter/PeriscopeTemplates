@@ -13,7 +13,7 @@ spring:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
   application:
-    name: backend
+    name: template
   cloud:
     consul:
       discovery:
