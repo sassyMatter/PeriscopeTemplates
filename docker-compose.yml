@@ -44,6 +44,7 @@ services:
       context: .
       dockerfile: Dockerfile
     #    image: moonbse/backend:latest
+
     platform: linux/amd64
     networks:
       internal-network:
@@ -53,6 +54,7 @@ services:
       - mysql-db
     ports:
       - "8082:8082"
+
 
 
 
