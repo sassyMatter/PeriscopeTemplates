@@ -18,17 +18,9 @@ spring:
     consul:
       discovery:
         instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
-        #        composite-indicator:
-        #          enabled: false
-        #        register-health-check: false
         healthCheckInterval: 40s
-#    discovery:
-#      client:
-#        composite-indicator:
-#          enabled: false
-#        health-indicator:
-#          enabled: false
-
+      host: consul-server
+      port: 8505
 
 com:
   app:

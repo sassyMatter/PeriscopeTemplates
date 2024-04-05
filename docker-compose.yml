@@ -1,6 +1,9 @@
 version: '3.8'
 
 networks:
+  consul-network:
+    external: true
+    name: consul-network
   internal-network:
 
 services:
@@ -39,7 +42,7 @@ services:
 
 
   spring-app:
-    #    container_name: backend
+#    container_name: backend
     build:
       context: .
       dockerfile: Dockerfile
@@ -47,13 +50,15 @@ services:
 
     platform: linux/amd64
     networks:
-      internal-network:
-    network_mode: host
+      - consul-network
+      - internal-network
+
+#    network_mode: host
     depends_on:
       - kafka
       - mysql-db
     ports:
-      - "8082:8082"
+      - "8080"
 
 
 
