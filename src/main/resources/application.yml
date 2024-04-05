@@ -12,6 +12,15 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
+  application:
+    name: template
+  cloud:
+    consul:
+      discovery:
+        instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+        healthCheckInterval: 40s
+      host: consul-server
+      port: 8505
 
 com:
   app:
