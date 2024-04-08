@@ -6,8 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -22,10 +24,7 @@ public class UserEndpoints {
     CustomCodeService myService;
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
-
-
-
+    NamedParameterJdbcTemplate jdbcTemplate;
 
 
 
