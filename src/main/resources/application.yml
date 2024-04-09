@@ -1,4 +1,7 @@
 spring:
+  server:
+    servlet:
+      context-path: /${spring.application.name}
   kafka:
     consumer:
       bootstrap-servers: kafka:9092
