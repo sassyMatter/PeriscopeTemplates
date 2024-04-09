@@ -9,7 +9,7 @@ spring:
          instance-id: template
          healthCheckInterval: 40s
       host: consul-server
-      port: 8505
+      port: 8500
 
 endpoints:
   health:
