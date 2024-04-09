@@ -40,12 +40,14 @@ services:
     platform: linux/amd64
 
 
+
   spring-app:
 #    container_name: backend
     build:
       context: .
       dockerfile: Dockerfile
     #    image: moonbse/backend:latest
+
     platform: linux/amd64
     networks:
       - consul-network
@@ -57,6 +59,7 @@ services:
       - mysql-db
     ports:
       - "8080"
+
 
 
 
