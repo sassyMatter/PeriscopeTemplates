@@ -3,7 +3,7 @@ FROM openjdk:17-jdk-slim
 # Set the working directory in the container
 WORKDIR /app
 
-VOLUME /hostpipe
+#VOLUME /hostpipe
 # Copy the JAR file into the container
 COPY target/demo-0.0.1-SNAPSHOT.jar /app/demo.jar
 
